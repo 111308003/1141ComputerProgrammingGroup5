@@ -24,13 +24,13 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # 0. STREAMLIT 全域設定與字型處理
 # ----------------------------------------------------
 
-st.set_page_config(layout="wide", page_title="🗑️ 廢棄物數據可視化儀表板")
+st.set_page_config(layout="wide", page_title="廢棄物數據可視化儀表板")
 
 # --- Streamlit 字型載入與設置 ---
-font_path = "/content/drive/MyDrive/Noto_Sans_TC/static/NotoSansTC-Regular.ttf"
+font_path = "NotoSansTC-Regular.ttf"
 font1: Optional[FontProperties] = None
 
-# 檢查 Colab/本地路徑
+# 檢查路徑
 if os.path.exists(font_path):
     font1 = FontProperties(fname=font_path)
     plt.rcParams['font.sans-serif'] = [font1.get_name()] + plt.rcParams['font.sans-serif']
