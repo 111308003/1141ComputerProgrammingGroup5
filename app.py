@@ -17,6 +17,8 @@ import time
 import os
 from typing import List, Optional, Tuple, Dict
 from matplotlib.font_manager import FontProperties
+import urllib3 
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # ----------------------------------------------------
 # 0. STREAMLIT 全域設定與字型處理
@@ -67,21 +69,21 @@ def get_final_data(target_ym_list: List[str]):
         progress_bar.progress((i + 1) / len(target_ym_list))
 
         try:
-            response = requests.get(target_url, headers=HEADERS, timeout=15)
+            response = requests.get(target_url, headers=HEADERS, timeout=15, verify=False)
             time.sleep(0.5)
 
             if response.status_code == 200:
                 data_io = BytesIO(response.content)
                 df = pd.read_excel(data_io, sheet_name=0, header=[2, 3])
 
-                # --- 處理多層次標題 (你的完整邏輯) ---
+                # --- 處理多層次標題 ---
                 if isinstance(df.columns, pd.MultiIndex):
                     super_header_level = df.columns.get_level_values(0)
                     sub_header_level = df.columns.get_level_values(1)
                     new_columns: List[str] = []
 
                     for idx, (super_h, sub_h) in enumerate(zip(super_header_level, sub_header_level)):
-                        # (保持你的清理邏輯不變)
+
                         super_h_str = str(super_h).strip()
                         sub_h_str = str(sub_h).strip()
 
